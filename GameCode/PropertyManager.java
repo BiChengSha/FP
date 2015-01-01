@@ -167,7 +167,7 @@ public class PropertyManager {
 
 	/**
 	 * returns a string with all properties
-	 * @author zin
+	 * @author zain
 	 * @return String
 	 */
 	public String listAllProperties() {
