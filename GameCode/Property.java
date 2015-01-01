@@ -1,9 +1,10 @@
-// Date: Dec 27, 2014
+//Created Dec 27, 2014
+//Modified Jan 1, 2015
 
 abstract class Property extends GameTile {
   protected int baseRent;
   protected int cost;
-  protected String owner;
+  protected Player owner;
   
   public Property(String name, String owner, int baseRent, int cost) {
     super(name);
@@ -20,6 +21,22 @@ abstract class Property extends GameTile {
     temp += "Cost: " + cost;
     temp += "Base Rent: " + baseRent;
     return temp;
+  }
+  
+  public boolean purchase(Player player) {
+    if (player.getCash() >= cost) {
+      player.cash = player.getCash() - cost;
+      owner = player.getName();
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  public boolean sell() {
+    player.cash = player.getCash() + cost;
+    owner = null;
+    return true;
   }
   
 }
