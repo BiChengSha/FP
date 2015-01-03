@@ -4,6 +4,7 @@ public class IncomeTax {
   private double percentage;
   
   public IncomeTax(double percentage) {
+    super("Income Tax");
     this.percentage = percentage;
   }
   
