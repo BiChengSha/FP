@@ -65,9 +65,51 @@ public class GameManager {
 
   /**
    * Loads a saved game
+   * @author Zain
    */
   public void loadGame(){
-    //DO FILE READER
+    BufferedReader input;
+
+    try {
+      input = new BufferedReader(new FileReader(savedGameFile));
+      // Holds the name of each player. When this is null the loop exits.
+      String name;
+
+      // Loops through input until "next" is null
+      while ((name = input.readLine()) != null) {
+        // Required variables
+        int cash, location, utilities, railroads;
+
+        // Getting variable info
+        cash = Integer.parseInt(input.readLine());
+        location = Integer.parseInt(input.readLine());
+        utilities = Integer.parseInt(input.readLine());
+        railroads = Integer.parseInt(input.readLine());
+
+        // placing new player in the arraylist
+        Player newPlayer = new Player(name, cash, location, utilities, railroads);
+        players.add(newPlayer);
+
+        /* Looping through the properties that this player owns. The name variable will
+           now hold the name of property. The loop will exit when this variable holds a blank line */
+        while (!(name = input.nextLine()).equals("")) {
+          // finding the property with this name
+          Property temp = propertyManager.searchPropertiesByName(name);
+          // making the owner this player
+          temp.setOwner(newPlayer);
+          // number of houses (if it is an estate)
+          if (temp instanceOf Estate) {
+            temp.setNumHouses(Integer.parseInt(input.readLine()));
+          }
+          // adding this property to the player's property manager
+          newPlayer.getPropertiesOwned.addProperty(temp);
+        }
+
+      }
+    }
+    catch (IOException iox) {
+      System.out.println("Error Accessing the file to load game from");
+    }
   }
 
   /**
