@@ -4,6 +4,7 @@ public class LuxuryTax {
   private int amount;
   
   public LuxuryTax(int amount) {
+    super("Luxury Tax");
     this.amount = amount;
   }
   
