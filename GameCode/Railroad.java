@@ -9,6 +9,6 @@ public class Railroad extends Property {
   }
   
   public int calculateRent() {
-    return baseRent * Math.pow(2, owner.getNumRR-1);
+    return baseRent * Math.pow(2, owner.getNumRR()-1);
   }
 }
