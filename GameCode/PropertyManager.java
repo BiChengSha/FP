@@ -14,6 +14,15 @@ public class PropertyManager {
 	 * Holds all the properties
 	 */
 	private Arraylist propertyList;
+	
+	/**
+	 * Accessor
+	 * @author Zain
+	 * @return propertyList the arraylist
+	 */
+	public Arraylist getPropertyList() {
+		return propertyList;
+	}
 
 	/**
 	 * Constructor
