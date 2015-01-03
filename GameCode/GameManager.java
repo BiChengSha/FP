@@ -1,4 +1,5 @@
 //*** NOTES ***
+// Another addPlayer(String, int, int, int, int) method with parameters for the second constructor (to be used in the loadGame() method)
 
 /**
  * Authors: Zain, BiCheng
