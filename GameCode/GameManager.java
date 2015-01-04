@@ -52,6 +52,38 @@ public class GameManager {
    */
   private String savedGameFile = "save.txt";
 
+
+  /**
+   * Accessor Methods
+   * @author Zain
+   */
+  // game board
+  public GameTile[] getBoard() {
+    return board;
+  }
+
+  // property manager
+  public PropertyManager getPropertyManager() {
+    return propertyManager;
+  }
+
+  //players - this one returns an array (not an arraylist)
+  public Player[] getPlayers() {
+    Player[] temp = new Player[players.size()];
+    // initializing array
+    for (int i = 0; i < temp.length; i++) {
+      temp[i] = players.get(i);
+    }
+    return temp;
+  }
+
+  // current player index
+  public int getCurrentPlayerIndex() {
+    return currentPlayerIndex;
+  }
+
+  // No mutator methods are required.
+
   /**
    * Constructor, Initializes variables
    * @author Bicheng
@@ -342,4 +374,104 @@ public class GameManager {
       return false;
     }
   }
+
+  /**
+   * Sorts players by name (alphabetical, ascending)
+   * uses bubble sort
+   * @author Zain
+   * @return Player[]
+   */
+  public Player[] sortPlayersByName() {
+    Player[] array = getPlayers();
+    boolean sorted = false;
+
+    // outer loop
+    while (!sorted) {
+      sorted = true;
+      // loop through array
+      for (int i = 0; i < array.length - 1; i++) {
+        if (array[i].getName().compareTo(array[i + 1].getName()) > 0) {
+          // switch elements
+          Player temp = array[i];
+          array[i] = array[i + 1];
+          array[i + 1] = temp;
+          sorted = false;
+        }
+      }
+    }
+
+    // array is now sorted
+    return array;
+  }
+
+  /**
+   * Sorts players by cash (ascending)
+   * uses bubble sort
+   * @author Zain
+   * @return Player[]
+   */
+  public Player[] sortPlayersByCash() {
+    Player[] array = getPlayers();
+    boolean sorted = false;
+
+    // outer loop
+    while (!sorted) {
+      sorted = true;
+      // loop through array
+      for (int i = 0; i < array.length - 1; i++) {
+        if (array[i].getCash() > array[i + 1].getCash()) {
+          // switch elements
+          Player temp = array[i];
+          array[i] = array[i + 1];
+          array[i + 1] = temp;
+          sorted = false;
+        }
+      }
+    }
+
+    // array is now sorted
+    return array;
+  }
+
+  /**
+   * Sorts players by Properties owned (ascending)
+   * uses bubble sort
+   * @author Zain
+   * @return Player[]
+   */
+  public Player[] sortPlayersByPropertiesOwned() {
+    Player[] array = getPlayers();
+    boolean sorted = false;
+
+    // outer loop
+    while (!sorted) {
+      sorted = true;
+      // loop through array
+      for (int i = 0; i < array.length - 1; i++) {
+        if (array[i].getPropertiesOwned().size() > array[i + 1].getPropertiesOwned().size()) {
+          // switch elements
+          Player temp = array[i];
+          array[i] = array[i + 1];
+          array[i + 1] = temp;
+          sorted = false;
+        }
+      }
+    }
+
+    // array is now sorted
+    return array;
+  }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
