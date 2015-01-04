@@ -1,9 +1,11 @@
 //*** NOTES ***
 // Another addPlayer(String, int, int, int, int) method with parameters for the second constructor (to be used in the loadGame() method)
+// Suggest removing doubles() methd; i don't know what we'll do with it
 
 /**
  * Authors: Zain, BiCheng
  * GameManager class
+ * Started Dec. 30
  */
 
 import java.io.*;
@@ -44,6 +46,11 @@ public class GameManager {
    * The file (name) that the properties for the gameboard are read from (read-only)
    */
   private String propertyList = "PropertyList.txt";
+
+  /**
+   * The file (name) which the game is saved in (and loaded from)
+   */
+  private String savedGameFile = "save.txt";
 
   /**
    * Constructor, Initializes variables
@@ -99,7 +106,7 @@ public class GameManager {
           // making the owner this player
           temp.setOwner(newPlayer);
           // number of houses (if it is an estate)
-          if (temp instanceOf Estate) {
+          if (temp instanceof Estate) {
             temp.setNumHouses(Integer.parseInt(input.readLine()));
           }
           // adding this property to the player's property manager
@@ -273,9 +280,56 @@ public class GameManager {
   }
 
 
-  //Save(String)
+  /**
+   * Saves the current game
+   * @author Zain
+   */
+  public void save() {
+    BufferedWriter pen;
 
-//move(Player, int)
+    try {
+      pen = new BufferedWriter(new FileWriter(savedGameFile));
+
+      // Looping through all players
+      for (int i = 0; i < players.size(); i++) {
+        Player current = players.get(i);
+        // Writing the player's name, cash, location, number of utilities, and number of railroads
+        pen.write(current.getName());
+        pen.newLine();
+        pen.write(current.getCash() + "");
+        pen.newLine();
+        pen.write(current.getLocation() + "");
+        pen.newLine();
+        pen.write(current.getNumUtilities() + "");
+        pen.newLine();
+        pen.write(current.getNumRR() + "");
+        pen.newLine();
+
+        // Player's properties
+
+        // accessing the player's propertyList in their property manager
+        Arraylist propertyList = current.getPropertiesOwned().getPropertyList();
+
+        // looping through properties
+        for (int i = 0; i < propertyList.size()) {
+          pen.write(propertyList.get(i).getName());
+          pen.newLine();
+          // if it is an estate then the number of houses needs to be saved
+          if (propertyList.get(i) instanceof Estate) {
+            pen.write(propertyList.get(i).getNumHouses());
+            pen.newLine();
+          }
+        }
+
+        // blank line after this player's info has been saved
+        pen.newLine();
+      }
+    } catch (IOException iox) {
+      System.out.println("Error saving game (writing to file)");
+    }
+  }
+
+  //move(Player, int)
 
   /**
    * checks if a double was rolled
