@@ -38,6 +38,7 @@ From sale of stock you get $50
 Holiday Fund matures - Receive $100 
 
 
+-
 
 Chance list: 
 
