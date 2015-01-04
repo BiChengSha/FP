@@ -6,9 +6,9 @@ abstract class Property extends GameTile {
   protected int cost;
   protected Player owner;
   
-  public Property(String name, String owner, int baseRent, int cost) {
+  public Property(String name, int baseRent, int cost) {
     super(name);
-    this.owner = owner;
+    owner = null;
     this.baseRent = baseRent;
     this.cost = cost;
   }
