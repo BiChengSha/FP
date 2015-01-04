@@ -25,6 +25,7 @@ public class Player {
    public Player(String name, int cash) {
       this.name = name;
       this.cash = cash;
+      propertiesOwned = new PropertyManager();
       location = 0;
       numUtilities = 0;
       numRR = 0;
@@ -136,10 +137,10 @@ public class Player {
       //Lol sorry i'm not sure about the instances and extentions im confuzzeled
       for (int i = 0; i < propertiesOwned.properties.length; i++) {
          //Adds the cost of the property
-         temp += propertiesOwned.properties.get(i).getCost();
+         temp += propertiesOwned.properties[i].getCost();
          //Checks if there could be any houses in the property
-         if (propertiesOwned.properties.get(i) instanceof Estate) {
-            temp += propertiesOwned.properties.get(i).getIncreasePerHouse() * propertiesOwned.properties.get(i).getNumHouses();
+         if (propertiesOwned.properties[i] instanceof Estate) {
+            temp += propertiesOwned.properties[i].getIncreasePerHouse() * propertiesOwned.properties[i].getNumHouses();
          }
       }
       //Adds the cash
@@ -181,7 +182,7 @@ public class Player {
     */
    
    public String toString() {
-      return "Name:  " + name + "\nCash:  " + cash + "\nLocation:  " + location + "\nNumber of utilities:  " + numUtilities + "\nNumber of railroads:  " + numRR;
+      return "Name:  " + name + "\nCash:  " + cash + "\nLocation:  " + location + "\nNumber of utilities
    }  
    
    
