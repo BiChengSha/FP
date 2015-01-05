@@ -97,6 +97,7 @@ public class GameManager {
   public GameManager(){
     board = new GameTile[NUM_TILES];
     propertyManager = new PropertyManager();
+    players = new ArrayList();
     initializeProperties();
   }
 
