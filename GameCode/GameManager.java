@@ -81,6 +81,11 @@ public class GameManager {
   public int getCurrentPlayerIndex() {
     return currentPlayerIndex;
   }
+  
+  // number of players
+  public int getNumPlayers() {
+    return players.size();
+  }
 
   // No mutator methods are required.
 
