@@ -6,23 +6,15 @@
  * Name(s): Zain
  * Date: Dec.24
  * Class: PropertyManager Class
- * Description: stores properties in an arraylist and performs actions
+ * Description: stores properties in an ArrayList and performs actions
  */
+import java.util.*;
 
 public class PropertyManager {
 	/**
 	 * Holds all the properties
 	 */
-	private Arraylist propertyList;
-	
-	/**
-	 * Accessor
-	 * @author Zain
-	 * @return propertyList the arraylist
-	 */
-	public Arraylist getPropertyList() {
-		return propertyList;
-	}
+	private ArrayList propertyList;
 
 	/**
 	 * Constructor
@@ -52,7 +44,7 @@ public class PropertyManager {
 	}
 
 	/**
-	 * Searches properties by group. it needs to return an arraylist because there may be more than one match
+	 * Searches properties by group. it needs to return an ArrayList because there may be more than one match
 	 * Sequential Search
 	 * @author Zain
 	 * @param group the group number required
@@ -61,7 +53,7 @@ public class PropertyManager {
 	public ArrayList searchpropertiesByGroup(int group) {
 		ArrayList matches = new ArrayList();
 
-		for (int i = 0; i < propertyList.getSize(); i++) {
+		for (int i = 0; i < propertyList.size(); i++) {
 			// only estates are classified into groups
 			if (propertyList.get(i) instanceof Estate) {
 				if (propertyList.get(i).getGroup() == group) {
@@ -112,7 +104,7 @@ public class PropertyManager {
 	 */
 	public void sortPropertiesByCost() {
 		// boolean switch to check when the list is sorted
-		boolean sorted - false;
+		boolean sorted = false;
 
 		// looping until list is sorted
 		while (!sorted) {
@@ -120,7 +112,7 @@ public class PropertyManager {
 			// looping through list
 			for (int i = 0; i < propertyList.size() - 1; i++) {
 				if (propertyList.get(i).getCost() < propertyList.get(i+1).getCost()) {
-					// switching elements of the arraylist
+					// switching elements of the ArrayList
 					Property temp = propertyList.get(i);
 					propertyList.set(i, propertyList.get(i+1));
 					propertyList.set(i + 1, temp);
@@ -141,7 +133,7 @@ public class PropertyManager {
 
 		// loop until sorted
 		while (!sorted) {
-			sorted - true;
+			sorted = true;
 			// loop through list
 			for (int i = 0; i < propertyList.size(); i++) {
 				if (propertyList.get(i).getName().compareTo(propertyList.get(i+1).getName()) < 0) {
@@ -157,7 +149,7 @@ public class PropertyManager {
 	}
 
 	/**
-	 * Adds a property to the arraylist
+	 * Adds a property to the ArrayList
 	 * @author Zain
 	 * @param property property to add
 	 */
@@ -166,7 +158,7 @@ public class PropertyManager {
 	}
 
 	/**
-	 * removes a property from the arraylist
+	 * removes a property from the ArrayList
 	 * @author Zain
 	 * @param property property to remove
 	 */
@@ -176,7 +168,7 @@ public class PropertyManager {
 
 	/**
 	 * returns a string with all properties
-	 * @author zain
+	 * @author zin
 	 * @return String
 	 */
 	public String listAllProperties() {
@@ -191,3 +183,20 @@ public class PropertyManager {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
