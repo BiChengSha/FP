@@ -17,7 +17,7 @@ public class GameWindow extends JFrame {
 	/**
 	 * Height of the main window
 	 */
-	private int sizey = 900;
+	private int sizey = 900; 
 
 	/**
 	 * Text Area to put property info into
