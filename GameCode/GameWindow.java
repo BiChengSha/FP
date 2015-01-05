@@ -37,8 +37,7 @@ public class GameWindow extends JFrame {
 		// specifications of the window
 		setSize(sizex, sizey);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		setResizable(false);
+		setResizable(true);
 		setLayout(new GridLayout(2, 1));
 
 		// drawing the game board
@@ -52,6 +51,8 @@ public class GameWindow extends JFrame {
 
 		// drawing game options section (under board)
 		drawOptions();
+
+		setVisible(true);
 	}
 
 	/**
@@ -99,7 +100,7 @@ public class GameWindow extends JFrame {
 		// 3/4 the width and half the height
 		infoPanel.setSize(sizex * 3 / 4, sizey / 2);
 		// property info label
-		propertyInfo = new TextArea("Property Info: ", 10, 40);
+		propertyInfo = new JTextArea("Property Info:", 10, 40);
 		propertyInfo.setMaximumSize(new Dimension(400, 275));
 		propertyInfo.setEditable(false);
 		infoPanel.add(propertyInfo);
@@ -143,3 +144,21 @@ public class GameWindow extends JFrame {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
