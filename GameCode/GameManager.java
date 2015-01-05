@@ -461,6 +461,19 @@ public class GameManager {
     // array is now sorted
     return array;
   }
+  
+  public Player searchPlayer(String name) {
+    Player[] players = getPlayers();
+
+    for (int i = 0; i < players.length; i++) {
+      if (players[i].getName().equals(name)) {
+        return players[i];
+      }
+    }
+    
+    return null;
+    
+  }
 
 
 }
