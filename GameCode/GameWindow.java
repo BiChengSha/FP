@@ -22,7 +22,7 @@ public class GameWindow extends JFrame implements ActionListener{
   /**
    * Game Manager instance 
    */
-  GameManager manager;
+  private GameManager manager;
   
   /**
    * Variables for drawing board
@@ -63,6 +63,7 @@ public class GameWindow extends JFrame implements ActionListener{
     // calling the superclass constructor which is the JFrame constructor
     super(title);
     // Game manager
+    manager = man;
     // specifications of the window
     setSize(sizex, sizey);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
