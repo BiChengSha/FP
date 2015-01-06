@@ -1,3 +1,4 @@
+
 /*
  * Name: Matias Gonzalez
  * Date: 4/1/2015
@@ -39,13 +40,13 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
    
    int cashForPlayers = -1, countPlayers = 0;
    
-   //GameManager manager;
+   GameManager manager;
    
-   public AddPlayerWindow(String title/*, GameManager temp*/) {
+   public AddPlayerWindow(GameManager temp) {
       
-      super(title);
+      super("Add Players");
       
-      //manager = temp;
+      manager = temp;
       
       //Action commands for the 3 buttons
       setCash.setActionCommand("set");
@@ -94,6 +95,8 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
       
       setResizable(false);    //Players cannot resize the window
       
+      setSize(400, 200);
+      setVisible(true);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
    }
@@ -127,11 +130,11 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
       
       if (evt.getActionCommand().equals("add")) {
          if (cashForPlayers >= 0) {
-            //manager.addPlayer(addName.getText(), cashForPlayers);
+            manager.addPlayer(addName.getText(), cashForPlayers);
             countPlayers++;
             addName.setText("");
          } else {
-             warningWindow = new AddPlayerWindow("Warning!");
+            //warningWindow = new AddPlayerWindow("Warning!");
          }
       } else if (evt.getActionCommand().equals("set")) {
          if (Integer.parseInt(addCash.getText()) >= 0) {
@@ -144,6 +147,7 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
          if (countPlayers >= 2) {
             dispose();
             //start game
+            GameWindow x = new GameWindow(manager);
          } else {
             //Another warning message?
          }
@@ -154,13 +158,13 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
       
    }
    
-   public static void main (String[] args) {
+   /*public static void main (String[] args) {
       
-      AddPlayerWindow window = new AddPlayerWindow("Add Player"/*, */);
+      AddPlayerWindow window = new AddPlayerWindow("Add Player", );
       
       window.setSize(400, 200);
       window.setVisible(true);
       
-   }
+   }*/
 
 }
