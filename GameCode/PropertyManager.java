@@ -25,6 +25,21 @@ public class PropertyManager {
 	}
 
 	/**
+	 * Accessor for arraylist
+	 * @author Zain
+	 * @return Property[]
+	 */
+	public Property[] getPropertyList() {
+		Property[] list = new Property[propertyList.size()];
+
+		for (int i = 0; i < list.length; i++) {
+			list[i] = (Property)propertyList.get(i);
+		}
+
+		return list;
+	}
+
+	/**
 	 * Searches Properties by their name (unique to each property) using sequential search
 	 * @author Zain
 	 * @param name The name of the property
@@ -33,7 +48,7 @@ public class PropertyManager {
 	public Property searchPropertiesByName(String name) {
 		for (int i = 0; i < propertyList.size(); i++) {
 			// checking if this property's name matches the required name
-			if (propertyList.get(i).getName().equals(name)) {
+			if (((Property)propertyList.get(i)).getName().equals(name)) {
 				// returning the matching property. At this point the program exits the method
 				return propertyList.get(i);
 			}
@@ -48,18 +63,26 @@ public class PropertyManager {
 	 * Sequential Search
 	 * @author Zain
 	 * @param group the group number required
-	 * @return ArrayList the list of all matched
+	 * @return matches: the array of all matched properties
 	 */
-	public ArrayList searchpropertiesByGroup(int group) {
-		ArrayList matches = new ArrayList();
+	public Property[] searchpropertiesByGroup(int group) {
+		ArrayList matchedList = new ArrayList();
+		Property[] matches;
 
+		// finding all properties in the group
 		for (int i = 0; i < propertyList.size(); i++) {
 			// only estates are classified into groups
 			if (propertyList.get(i) instanceof Estate) {
-				if (propertyList.get(i).getGroup() == group) {
-					matches.add(propertyList.get(i));
+				if (((Estate)propertyList.get(i)).getGroup() == group) {
+					matchedList.add(propertyList.get(i));
 				}
 			}
+		}
+
+		// converting arraylist to array
+		matches = new Property[matchedList.size()];
+		for (int i = 0; i < matchedList.size(); i++) {
+			matches[i] = (Property)matchedList.get(i);
 		}
 
 		return matches;
@@ -82,7 +105,7 @@ public class PropertyManager {
 				// only estates have groups
 				// Non-estate properties (ex. utilities and Railroads) are ignored, and are carried to the end of the list
 				if (propertyList.get(location) instanceof Estate) {
-					if (propertyList.get(location).getGroup() > current.getGroup()) {
+					if (((Estate)propertyList.get(location)).getGroup() > current.getGroup()) {
 						propertyList.set(location + 1, propertyList.get(location));
 					} else {
 						// insertion location has been found
@@ -111,7 +134,7 @@ public class PropertyManager {
 			sorted = true;
 			// looping through list
 			for (int i = 0; i < propertyList.size() - 1; i++) {
-				if (propertyList.get(i).getCost() < propertyList.get(i+1).getCost()) {
+				if (((Property)propertyList.get(i)).getCost() < ((Property)propertyList.get(i+1)).getCost()) {
 					// switching elements of the ArrayList
 					Property temp = propertyList.get(i);
 					propertyList.set(i, propertyList.get(i+1));
@@ -136,7 +159,7 @@ public class PropertyManager {
 			sorted = true;
 			// loop through list
 			for (int i = 0; i < propertyList.size(); i++) {
-				if (propertyList.get(i).getName().compareTo(propertyList.get(i+1).getName()) < 0) {
+				if (((Property)propertyList.get(i)).getName().compareTo(((Property)propertyList.get(i+1)).getName()) < 0) {
 					// switching
 					Property temp = propertyList.get(i);
 					propertyList.set(i, propertyList.get(i+1));
