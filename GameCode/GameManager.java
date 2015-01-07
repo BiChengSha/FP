@@ -367,7 +367,17 @@ public class GameManager {
     }
   }
 
-  //move(Player, int)
+  
+  /**
+   * Draws the player on the game board (given the location to draw them on)
+   * @author Zain
+   * @param player; the player to move
+   * @param location the location to draw the player on
+   */
+  public void drawPlayer(Player player, int location) {
+    
+  }
+  
 
   /**
    * checks if a double was rolled
@@ -481,4 +491,16 @@ public class GameManager {
     
   }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
