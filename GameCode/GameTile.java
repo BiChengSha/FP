@@ -13,8 +13,9 @@ public class GameTile {
     return location;
   }
   
-  public GameTile(String name) {
+  public GameTile(String name, int location) {
     this.name = name;
+    this.location = location;
   }
   
   public String toString() {
