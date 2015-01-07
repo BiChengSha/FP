@@ -300,20 +300,44 @@ public class Chance extends GameTile{
 //    }
 //  }
   
+  
   // Author: David
   public void performAction(Player player, int num, GameMananger manager) {
     switch (num) {
-      case 1: // Advance to GO (Collect $200)
+      case 0: // Advance to GO (Collect $200)
         manager.move(player, 0, player.getLocation(), movementCheck(0, player.getLocation()));
         break;
-      case 2: // Advance to Springfield (index 24 in the array)
+      case 1: // Advance to Springfield (index 24 in the array)
         manager.move(player, 24, player.getLocation(), movementCheck(24, player.getLocation()));
         break;
-      case 3: // Advance to the nearest utility
-        if(player.getLocation() >= 12 && player.getLocation() < 28) 
-          manager.move(player, 28, player.getLocation(), movementCheck(28, player.getLocation()));
+      case 2: // Advance to the nearest utility
+        player.cash = player.getCash();
+        if (UTILITY_1 >= UTILITY_2) {
+          if (player.getLocation() >= UTILITY_2 && player.getLocation() < UTILITY_1) {
+            manager.move(player, UTILITY_1, player.getLocation(), movementCheck(UTILITY_1, player.getLocation()));
+          } else {
+            manager.move(player, UTILITY_2, player.getLocation(), movementCheck(UTILITY_2, player.getLocation()));
+          }
+        } else { 
+          if(player.getLocation() >= UTILITY_1 && player.getLocation() < UTILITY_2) {
+            manager.move(player, UTILITY_2, player.getLocation(), movementCheck(UTILITY_2, player.getLocation()));
+          } else {
+            manager.move(player, UTILITY_1, player.getLocation(), movementCheck(UTILITY_1, player.getLocation()));
+          }
+        }
+        break;
+      case 3: // Advance to the nearest Railroad
+        
+        
+        
+        if(player.getLocation() >= 5 && player.getLocation() < 15) {
+          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
+        } else if (player.getLocation() >= 15 && player.getLocation() < 25) {
+          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
+        } else if (player.getLocation() >= 25 && player.getLocation() < 35) {
+          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
         } else {
-          manager.move(player, 12, player.getLocation(), movementCheck(12, player.getLocation()));
+          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
         }
         break;
       case 4: // Advance to the nearest Railroad
@@ -327,27 +351,32 @@ public class Chance extends GameTile{
           manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
         }
         break;
-      case 5: // Advance to the nearest Railroad
-        if(player.getLocation() >= 5 && player.getLocation() < 15) {
-          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
-        } else if (player.getLocation() >= 15 && player.getLocation() < 25) {
-          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
-        } else if (player.getLocation() >= 25 && player.getLocation() < 35) {
-          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
-        } else {
-          manager.move(player, 15, player.getLocation(), movementCheck(15, player.getLocation()));
-        }
-        break;
-      case 6: // Advance to King's Landing (index 11 in the array)
+      case 5: // Advance to King's Landing (index 11 in the array)
         manager.move(player, 11, player.getLocation(), movementCheck(11, player.getLocation()));
         break;
-      case 7: // Banks pays you a divident of $50
+      case 6: // Banks pays you a divident of $50
         player.cash = player.getCash() + 50;
         break;
-      case 8: // Go back three spaces
-        
+      case 7: // Go back three spaces
+        // if the index of the player's location is less than 3, than the player must move to the end of the board to prevent the
+        // index value of the player's location going into a negative number
+        if (player.getLocation() == 2) {
+          player.setLocation(39);
+          player.cash = player.getCash() - 200;
+        } else if (player.getLocation() == 1) {
+          player.setLocation(38);
+          player.cash = player.getCash() - 200;
+        } else if (player.getLocation() == 0) {
+          player.setLocation(37);
+          player.cash = player.getCash() - 200;
+        } else {
+          manager.move(player, (player.getLocation() - 3), player.getLocation(), movementCheck((player.getLocation() - 3)), player.getLocation());
+          player.cash = player.getCash() - 200; // $200 needs to be removed from the player's cash since they never passed go, but the move method
+                                                // only works when a player moves forward, so in the code, the player travels around the entire board, but lands
+                                                // on the GameTile 3 locations prior to their previous location 
+        }
         break;
-      case 9: // Make general repairs - $15 per house owned by player
+      case 8: // Make general repairs - $15 per house owned by player
         int numHouses = 0;
         for (int i = 0; i < properties.length; i++) {
           if (properties[i] instanceof Estate) {
@@ -358,16 +387,16 @@ public class Chance extends GameTile{
         }
         player.cash = player.getCash() - (numHouses*15);
         break;
-      case 10: // pay poor tax of $20
+      case 9: // pay poor tax of $20
         player.cash = player.getCash() - 20
         break;
-      case 11: // Take a trip to reading railroad (index 5 in the array)
+      case 10: // Take a trip to reading railroad (index 5 in the array)
         manager.move(player, 5, player.getLocation(), movementCheck(5, player.getLocation()));
         break;
-      case 12: // Go to hell (index 39 in the array)
+      case 11: // "Go to " + manager.board[39].getName();
         manager.move(player, 39, player.getLocation(), movementCheck(39, player.getLocation()));
         break;
-      case 13: // You have been eleceted chairman of the board - pay each player $50
+      case 12: // You have been eleceted chairman of the board - pay each player $50
         int playerNum = players.length;
         for (int i = 0; i < playerAmountNum; i++) {
           if (i != currentPlayerIndex) {
@@ -376,10 +405,10 @@ public class Chance extends GameTile{
         }
         player.cash = player.getCash() - ((playerAmount-1)*50);
         break;
-      case 14: // Your building loan matures - collect $150
+      case 13: // Your building loan matures - collect $150
         player.cash = player.getCash() + 150;
         break;
-      case 15: // You have won a crossword competition - collect $100
+      case 14: // You have won a crossword competition - collect $100
         player.cash = player.getCash() + 100;
         break;
     }
