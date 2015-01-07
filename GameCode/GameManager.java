@@ -1,7 +1,3 @@
-//*** NOTES ***
-// Another addPlayer(String, int, int, int, int) method with parameters for the second constructor (to be used in the loadGame() method)
-// Suggest removing doubles() methd; i don't know what we'll do with it
-
 /**
  * Authors: Zain, BiCheng
  * GameManager class
@@ -11,6 +7,22 @@
 import java.io.*;
 
 public class GameManager {
+  /**
+   * Constants for unchanging locations on the board (utilities, railroads, four corners)
+   */
+  public static final int UTILITY_1 = 12;
+  public static final int UTILITY_2 = 28;
+  
+  public static final int RAILROAD_1 = 5;
+  public static final int RAILROAD_2 = 15;
+  public static final int RAILROAD_3 = 25;
+  public static final int RAILROAD_4 = 35;
+  
+  public static final int GO_TILE = 0;
+  public static final int AZKABAN = 10;
+  public static final int LIMBO = 20;
+  public static final int SCENIC_ROUTE = 30;
+  
   /**
    * Number of Tiles on the board
    */
