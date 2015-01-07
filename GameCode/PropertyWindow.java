@@ -250,5 +250,12 @@ public class PropertyWindow extends JFrame implements ActionListener {
       propInfo.setText(manager.getPropertyList()[index].toString();
     }
   }
-  
+
+
 }
+
+
+
+
+
+
