@@ -2,20 +2,14 @@
 
 public class GameTile {
   protected String name;
-  protected int location;
    
-  // Accessors (Author: Zain)
+  // Accessor
   public String getName() {
     return name;
   }
-  
-  public int getLocation() {
-    return location;
-  }
-  
-  public GameTile(String name, int location) {
+
+  public GameTile(String name) {
     this.name = name;
-    this.location = location;
   }
   
   public String toString() {
