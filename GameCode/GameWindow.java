@@ -22,7 +22,7 @@ public class GameWindow extends JFrame implements ActionListener{
   /**
    * Game Manager instance 
    */
-  private GameManager manager;
+  GameManager manager;
   
   /**
    * Variables for drawing board
@@ -59,16 +59,15 @@ public class GameWindow extends JFrame implements ActionListener{
    * @author Zain
    * @param title Title of the window
    */
-  public GameWindow(String title, GameManager man) {
+  public GameWindow(GameManager man) {
     // calling the superclass constructor which is the JFrame constructor
-    super(title);
-    // Game manager
+    super("Monopoly");
     manager = man;
     // specifications of the window
     setSize(sizex, sizey);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setResizable(true);
-    setLayout(new GridLayout(2, 1));
+    setLayout(new FlowLayout());
     
     // drawing the game board
     drawBoard();
@@ -86,12 +85,12 @@ public class GameWindow extends JFrame implements ActionListener{
   public void drawBoard() {
     // board holds the image. BorderLayout is used so that the image can be centered
     board = new JPanel(new BorderLayout());
-    image = new ImageIcon("monopoly2.jpg");
+    image = new ImageIcon("MonopolyBoard500.jpg");
     imageHolder = new JLabel("", image, JLabel.CENTER);
     
-    board.setSize(sizex, sizey/2);
+    //board.setMinimumSize(new Dimension(sizex, (int)(2*sizey/3)));
     // add image to jpanel
-    board.add(imageHolder, BorderLayout.CENTER);
+    board.add(imageHolder/*, BorderLayout.CENTER*/);
     // add Jpanel to JFrame
     add(board);
   }
@@ -106,7 +105,7 @@ public class GameWindow extends JFrame implements ActionListener{
     infoPanel = new JPanel();
     infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
     // 3/4 the width and half the height
-    infoPanel.setSize(sizex * 3 / 4, sizey / 2);
+    infoPanel.setSize(sizex * 3 / 4, (int)(sizey / 3));
     // property info label
     propertyInfo = new JTextArea("Property Info:", 10, 40);
     propertyInfo.setMaximumSize(new Dimension(400, 275));
@@ -116,7 +115,7 @@ public class GameWindow extends JFrame implements ActionListener{
     purchase = new JButton("Purchase This Property");
     purchase.setAlignmentX(Component.CENTER_ALIGNMENT);
     infoPanel.add(purchase);
-    
+
     holder.add(infoPanel, BorderLayout.LINE_START);
     
     // Now for the buttons
@@ -182,30 +181,42 @@ public class GameWindow extends JFrame implements ActionListener{
       
     } else if (command.equals("viewAllProp")) {
       // opening the property window
-      PropertyWindow propWindow = new PropertyWindow(manager);
+      //PropertyWindow propWindow = new PropertyWindow(manager);
       
-    } else if (command.equals("viewOwnedProp") {
+    } else if (command.equals("viewOwnedProp")) {
       // opening the  property wqindow with player's properties
-      PropertyWindow propWindow;
+      //PropertyWindow propWindow;
       
       // getting the current player's property manager
       Player[] players = manager.getPlayers();
-      PropertyManager propManager = players[manager.getCurrentPlayerIndex()].getPropertiesOwned();
+      //PropertyManager propManager = players[manager.getCurrentPlayerIndex()].getPropertiesOwned();
       
       // opening the property window
-      propWindow = new PropertyWindow(propManager);
+      //propWindow = new PropertyWindow(propManager);
       
     } else if (command.equals("playerStats")) {
       // Player info
-      PlayerInfo playerInfo = new PlayerInfo("Player Info", manager);
+      PlayerInfo playerInfo = new PlayerInfo(manager);
+      
+    } else if (command.equals("endTurn")) {
+      
+      /*if (rollCheck && payCheck && manager.players[manager.getCurrentPlayerIndex()].getCash() >= 0) {
+         manager.endTurn();
+      } else if (rollCheck && payCheck) {
+         new NotificationWindow("Warning", "You have to somehow get your money back on the green");
+      } else if (rollCheck) {
+         new NotificationWindow("Warning", "You haven't paid you debt yet");
+      } else {
+         new NotificationWindow("Warning", "You haven't rolled yet, you dingus");
+      }*/
       
     } else if (command.equals("saveGame")) {
       // save the game
-      manager.save();
+      //manager.save();
       
-    } else if (command.equals("endGame") {
+    } else if (command.equals("endGame")) {
       // end the game
-      manager.endGame();
+      System.exit(0);
     }
                
   }
