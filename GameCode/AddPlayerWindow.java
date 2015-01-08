@@ -1,10 +1,6 @@
-
 /*
- * Name: Matias Gonzalez
- * Date: 4/1/2015
- * Class:
- * Teacher:
- * Description:
+ *
+ * @Author: Matias G
  */
 
 import java.awt.*;
@@ -28,7 +24,10 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
    
    //For warning message
    JPanel position = new JPanel();
-   JLabel warning = new JLabel("You must set the cash first and then add at least 2 players");
+   JLabel warning = new JLabel("You must set an integer value for cash first");
+   JLabel warningCont = new JLabel("and then add at least 2 players");
+   JLabel warningCont2 = new JLabel("also you can't add a player with no name");
+   JLabel warningCont3 = new JLabel("and there's a maximum of 8 players");
    JButton exit = new JButton("Ok");
    
    //The set cash, add player, and start game buttons
@@ -36,12 +35,19 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
    JButton add = new JButton("Add");
    JButton start = new JButton("Start Game");
    
-   AddPlayerWindow warningWindow;
+   //Constant
+   final static private int MAX_PLAYERS = 8;
    
+   //Variables
+   AddPlayerWindow warningWindow;
+   GameManager manager;
    int cashForPlayers = -1, countPlayers = 0;
    
-   GameManager manager;
    
+   /*
+    * Contructor
+    * @Author: Matias G
+    */
    public AddPlayerWindow(GameManager temp) {
       
       super("Add Players");
@@ -101,70 +107,53 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
       
    }
    
-   /*public AddPlayerWindow(String title) {
-      super(title);
-      
-      exit.setActionCommand("exit");
-      
-      position.setLayout(new BoxLayout(position, BoxLayout.Y_AXIS));
-      
-      position.add(warning);
-      position.add(Box.createRigidArea(new Dimension(1, 20)));
-      position.add(exit);
-      
-      warning.setAlignmentX(Component.CENTER_ALIGNMENT);
-      exit.setAlignmentX(Component.CENTER_ALIGNMENT);
-      position.setAlignmentX(Component.CENTER_ALIGNMENT);
-      
-      exit.addActionListener(this);
-      
-      add(position);
-      
-      setSize(300,100);
-      setVisible(true);
-      setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-      
-   }*/
-   
    public void actionPerformed(ActionEvent evt) {
       
-      if (evt.getActionCommand().equals("add")) {
-         if (cashForPlayers >= 0) {
-            manager.addPlayer(addName.getText(), cashForPlayers);
-            countPlayers++;
-            addName.setText("");
-         } else {
-            //warningWindow = new AddPlayerWindow("Warning!");
+      //Add player button
+     if (evt.getActionCommand().equals("add")) {
+       //Checks if the set cash is valid, the name is valid, and the max number of player was reached
+       if (cashForPlayers >= 0 && !addName.getText().equals("") && countPlayers < MAX_PLAYERS) {
+         manager.addPlayer(addName.getText(), cashForPlayers);    //Adds player to the array list
+         countPlayers++;      //Counts players
+         addName.setText(""); //Resets text
+       } 
+       //Warning message
+       else if (cashForPlayers < 0) {
+         new NotificationWindow("Warning", "You can't add a player without setting the cash first and it needs to be a positive integer or 0");
+       }  else if (countPlayers == 8){
+         new NotificationWindow("Warning", "You can't add more than 8 players");
+       } else {
+         new NotificationWindow("Warning", "You can't add a player with no name");
+       }
+      //Set cash button
+     } else if (evt.getActionCommand().equals("set")) {
+         try {
+            if (Integer.parseInt(addCash.getText()) >= 0) {
+               cashForPlayers = Integer.parseInt(addCash.getText());
+               addCash.setEditable(false);
+            }
          }
-      } else if (evt.getActionCommand().equals("set")) {
-         if (Integer.parseInt(addCash.getText()) >= 0) {
-            cashForPlayers = Integer.parseInt(addCash.getText());
-            addCash.setEditable(false);
-            //setCash.setActionCommand("denied");
+         //Warning message
+         catch (NumberFormatException iox) {
+            new NotificationWindow("Warning", "You have to set an integer value");
          }
          
-      } else if (evt.getActionCommand().equals("start")) {
+      }
+      //Start game button
+      else if (evt.getActionCommand().equals("start")) {
          if (countPlayers >= 2) {
             dispose();
             //start game
-            GameWindow x = new GameWindow(manager);
-         } else {
-            //Another warning message?
+            new GameWindow(manager);
+            
          }
-      //For warning messages
-      } else if (evt.getActionCommand().equals("exit")) {
-         dispose();
+         //Warning message
+         else {
+           new NotificationWindow("Warning", "You have to add at least 2 players");
+         }
       }
       
    }
    
-   /*public static void main (String[] args) {
-      
-      AddPlayerWindow window = new AddPlayerWindow("Add Player", );
-      
-      window.setSize(400, 200);
-      window.setVisible(true);
-      
-   }*/
 
 }
