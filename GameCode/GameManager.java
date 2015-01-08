@@ -286,7 +286,36 @@ public class GameManager {
       System.out.println("Error accessing property list file");
     }
   }
-
+  
+  public int findMovement(int destination, int location) {
+    if (destination < location) {
+      return destination - location + NUM_TILES;
+    } else {
+      return destination - location;
+    }
+  }
+  
+  public void move(int movement) {
+  
+   Player player = ((Player)players.get(currentPlayerIndex));
+   int location = player.getLocation();
+   
+   if (location == 0) {
+      //board[0].passGo(player);
+   }
+   
+   if (movement >= 1 && location == NUM_TILES-1) {
+      player.setLocation(0);
+      move(movement-1);
+   } else if (movement == 1) {
+      player.setLocation(player.getLocation() + 1);
+   } else {
+      player.setLocation(player.getLocation() + 1);
+      move(movement-1);
+   }
+   
+  }
+  
   /**
    * Adds a new player to the arraylist
    * @author Bicheng
