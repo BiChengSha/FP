@@ -1,3 +1,5 @@
+GoTile
+
 Estate
 Mediterranean Avenue
 0
@@ -5,6 +7,8 @@ Mediterranean Avenue
 60
 50
 50
+
+Community Chest
 
 Estate
 Baltic Avenue
@@ -14,6 +18,14 @@ Baltic Avenue
 90
 90
 
+IncomeTax
+10
+
+RailRoad
+Reading Railroad
+200
+25
+
 Estate
 Oriental Avenue
 1
@@ -21,6 +33,8 @@ Oriental Avenue
 100
 110
 110
+
+Chance
 
 Estate
 Vermont Avenue
@@ -46,6 +60,10 @@ St. Charles Place
 150
 150
 
+Utility
+Electric Company
+150
+
 Estate
 States Avenue
 2
@@ -62,6 +80,11 @@ Virginia Avenue
 180
 180
 
+RailRoad
+Pennsylvania Railroad
+200
+25
+
 Estate
 St. James Place
 3
@@ -69,6 +92,8 @@ St. James Place
 180
 190
 190
+
+Community Chest
 
 Estate
 Tennessee Avenue
@@ -94,6 +119,8 @@ Kentucky Avenue
 210
 210
 
+Chance
+
 Estate
 Indiana Avenue
 4
@@ -110,6 +137,11 @@ Illinois Avenue
 220
 220
 
+RailRoad
+B. & O. Railroad
+200
+25
+
 Estate
 Atlantic Avenue
 5
@@ -125,6 +157,10 @@ Ventnor Avenue
 260
 230
 230
+
+Utility
+Water Works
+150
 
 Estate
 Marvin Gardens
@@ -150,6 +186,8 @@ North Carolina Avenue
 255
 255
 
+Community Chest
+
 Estate
 Pennsylvania Avenue
 6
@@ -157,6 +195,13 @@ Pennsylvania Avenue
 320
 280
 280
+
+RailRoad
+Short Line
+200
+25
+
+Chance
 
 Estate
 Park Place
@@ -166,6 +211,9 @@ Park Place
 300
 300
 
+LuxuryTax
+75
+
 Estate
 Boardwalk
 7
@@ -174,43 +222,4 @@ Boardwalk
 400
 400
 
-RailRoad
-Reading Railroad
-200
-25
-
-RailRoad
-Pennsylvania Railroad
-200
-25
-
-RailRoad
-B. & O. Railroad
-200
-25
-
-RailRoad
-Short Line
-200
-25
-
-Utility
-Electric Company
-150
-
-Utility
-Water Works
-150
-
-IncomeTax
-10
-
-LuxuryTax
-75
-
-GoTile
-
-Chance
-
-Community Chest
 
