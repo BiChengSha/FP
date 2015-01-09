@@ -1,6 +1,6 @@
 // Date: Dec 30, 2014
 
-public class LuxuryTax {
+public class LuxuryTax extends GameTile {
   private int amount;
   
   // accesors
@@ -20,7 +20,7 @@ public class LuxuryTax {
   
   public boolean deductTax(Player player) {
     if (player.getCash() - amount >= 0) {
-      player.cash = player.getCash() - amount;
+      player.setCash(player.getCash() - amount);
       return true;
     } else {
       return false;
