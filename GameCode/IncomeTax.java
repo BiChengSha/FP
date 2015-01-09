@@ -1,6 +1,6 @@
 // Date: Dec 30, 2014 
 
-public class IncomeTax {
+public class IncomeTax extends GameTile {
   private double percentage;
   
   public IncomeTax(double percentage) {
@@ -9,6 +9,6 @@ public class IncomeTax {
   }
   
   public void deductTax(Player player) {
-    player.cash = player.getCash() * (1.00 - percentage);
+    player.setCash((int)(player.getCash() * (1.00 - percentage)));
   }
 }
