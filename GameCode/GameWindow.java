@@ -40,6 +40,7 @@ public class GameWindow extends JFrame implements ActionListener{
   private JButton purchase;
   
   private JPanel optionButtons;
+  private JButton roll;
   private JButton endTurn;
   private JButton viewAllProperties;
   private JButton viewOwnedProperties;
@@ -88,7 +89,7 @@ public class GameWindow extends JFrame implements ActionListener{
     image = new ImageIcon("MonopolyBoard500.jpg");
     imageHolder = new JLabel("", image, JLabel.CENTER);
     
-    //board.setMinimumSize(new Dimension(sizex, (int)(2*sizey/3)));
+    board.setMinimumSize(new Dimension(sizex, (int)(2*sizey/3)));
     // add image to jpanel
     board.add(imageHolder/*, BorderLayout.CENTER*/);
     // add Jpanel to JFrame
@@ -122,6 +123,7 @@ public class GameWindow extends JFrame implements ActionListener{
     // components
     optionButtons = new JPanel();
     optionButtons.setLayout(new BoxLayout(optionButtons, BoxLayout.PAGE_AXIS));
+    roll = new JButton("Roll");
     viewAllProperties = new JButton("View All Properties");
     viewAllProperties.setAlignmentX(Component.CENTER_ALIGNMENT);
     viewOwnedProperties = new JButton("View Owned Properties");
@@ -138,6 +140,7 @@ public class GameWindow extends JFrame implements ActionListener{
     optionButtons.setSize(sizex / 4, sizey / 2);
     
     // Action commands
+    roll.setActionCommand("roll");
     purchase.setActionCommand("purchase");
     viewAllProperties.setActionCommand("viewAllProp");
     viewOwnedProperties.setActionCommand("viewOwnedProp");
@@ -147,6 +150,7 @@ public class GameWindow extends JFrame implements ActionListener{
     endGame.setActionCommand("endGame");
     
     // Adding action listeners to buttons
+    roll.addActionListener(this);
     purchase.addActionListener(this);
     viewAllProperties.addActionListener(this);
     viewOwnedProperties.addActionListener(this);
@@ -156,6 +160,7 @@ public class GameWindow extends JFrame implements ActionListener{
     endGame.addActionListener(this);
     
     // adding everything
+    optionButtons.add(roll);
     optionButtons.add(endTurn);
     optionButtons.add(viewAllProperties);
     optionButtons.add(viewOwnedProperties);
@@ -176,23 +181,31 @@ public class GameWindow extends JFrame implements ActionListener{
   public void actionPerformed(ActionEvent e) {
     String command = e.getActionCommand();
     
-    if (command.equals("purchase")) {
+    if (command.equals("roll")) {
+      //Roll dice
+      
+      
+      manager.rollDice();  
+      
+      if (!manager.rollCheck()) {
+        roll.setEnabled(false);
+      }
+      
+      new NotificationWindow("Rock n roll bitch", "You rolled a " + manager.getDie1().getLastRoll() + " and " + manager.getDie2().getLastRoll());
+      
+    } else if (command.equals("purchase")) {
       // purchase button
       
     } else if (command.equals("viewAllProp")) {
       // opening the property window
-      //PropertyWindow propWindow = new PropertyWindow(manager);
+      new PropertyWindow(manager.getPropertyManager());
       
-    } else if (command.equals("viewOwnedProp")) {
-      // opening the  property wqindow with player's properties
-      //PropertyWindow propWindow;
-      
+    } else if (command.equals("viewOwnedProp")) {      
       // getting the current player's property manager
-      Player[] players = manager.getPlayers();
-      //PropertyManager propManager = players[manager.getCurrentPlayerIndex()].getPropertiesOwned();
+      PropertyManager propManager = manager.getPlayers()[manager.getCurrentPlayerIndex()].getPropertiesOwned();
       
       // opening the property window
-      //propWindow = new PropertyWindow(propManager);
+      new PropertyWindow(propManager);
       
     } else if (command.equals("playerStats")) {
       // Player info
@@ -205,14 +218,17 @@ public class GameWindow extends JFrame implements ActionListener{
       } else if (rollCheck && payCheck) {
          new NotificationWindow("Warning", "You have to somehow get your money back on the green");
       } else if (rollCheck) {
-         new NotificationWindow("Warning", "You haven't paid you debt yet");
+         new NotificationWindow("Warning", "You haven't paid your debt yet");
       } else {
          new NotificationWindow("Warning", "You haven't rolled yet, you dingus");
       }*/
       
+      roll.setEnabled(true);
+      manager.endTurn();
+      
     } else if (command.equals("saveGame")) {
       // save the game
-      //manager.save();
+      manager.save();
       
     } else if (command.equals("endGame")) {
       // end the game
