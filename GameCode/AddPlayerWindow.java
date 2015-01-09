@@ -113,7 +113,7 @@ public class AddPlayerWindow extends JFrame implements ActionListener {
      if (evt.getActionCommand().equals("add")) {
        //Checks if the set cash is valid, the name is valid, and the max number of player was reached
        if (cashForPlayers >= 0 && !addName.getText().equals("") && countPlayers < MAX_PLAYERS) {
-         manager.addPlayer(addName.getText(), cashForPlayers);    //Adds player to the array list
+         manager.addPlayer(addName.getText(), cashForPlayers);    //Adds player to the players list
          countPlayers++;      //Counts players
          addName.setText(""); //Resets text
        } 
