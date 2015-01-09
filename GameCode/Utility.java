@@ -9,12 +9,16 @@ public class Utility extends Property {
   }
   
   public int calculateRent() {
-    if (owner.getNumUtilities == 1) {
-      int temp = Die.Roll() + Die.Roll();
-      return temp*4;
+    
+    Die die1 = new Die();
+    Die die2 = new Die();
+    
+    if (owner.getNumUtilities() == 1) {
+      int temp = die1.roll() + die2.roll();
+      return temp*baseRent;
     } else {
-      int temp = Die.Roll() + Die.Roll();
-      return temp*10;
+      int temp = die2.roll() + die1.roll();
+      return (int)(temp*baseRent*2.5);
     }
   }
 }
