@@ -56,13 +56,13 @@ public class PlayerInfo extends JFrame implements ActionListener {
       //Passes on the GameManager
       manager = temp;
       
-      //Creates the array for players
+      //Creates the players for players
       playerList = manager.getPlayers();
       
-      //Creates the array of string for the JList
+      //Creates the players of string for the JList
       playerNames = new String[playerList.length];
       
-      //Fills the array with the player names
+      //Fills the players with the player names
       for (int i = 0; i < playerList.length; i++) {
          playerNames[i] = playerList[i].getName();
       }
@@ -187,7 +187,7 @@ public class PlayerInfo extends JFrame implements ActionListener {
       
       //Set operations
       setResizable(false);
-      setSize(400, 360);
+      setSize(400, 380);
       setVisible(true);
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       
