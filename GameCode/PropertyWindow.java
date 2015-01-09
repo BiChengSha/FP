@@ -7,6 +7,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class PropertyWindow extends JFrame implements ActionListener {
  /**
@@ -40,7 +42,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
  private JTextArea propInfo;
  private JScrollPane scrollPane;
  private JList list;
- String[] propertyNames = {"Prop 1 is a big property", "Prop 2", "Prop 3"};
+ String[] propertyNames;
 
 
  /**
@@ -181,21 +183,21 @@ public class PropertyWindow extends JFrame implements ActionListener {
 
 
   /**
-   * Updates the String array "propertyNames" with names of the properties in the property manager
+   * Updates the String players "propertyNames" with names of the properties in the property manager
    * @author Zain
-   * @param updatedProperties the array of properties which names should be included
+   * @param updatedProperties the players of properties which names should be included
    */
   public void updatePropertyNames(Property[] updatedProperties) {
     propertyNames = new String[updatedProperties.length];
 
-    for (int i = 0; i < updatedProperties.length) {
+    for (int i = 0; i < updatedProperties.length; i++) {
       propertyNames[i] = updatedProperties[i].getName();
     }
   }
 
 
   /**
-   * Updates the String array "propertyNames" with name of property specified (used by searchByName)
+   * Updates the String players "propertyNames" with name of property specified (used by searchByName)
    * @author Zain
    * @param prop: property to list
    */
@@ -218,7 +220,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
       updatePropertyNames(manager.searchPropertiesByName(search.getText()));
     }
     else if (command.equals("searchGroup")) {
-      updatePropertyNames(manager.searchPropertiesByGroup(Integer.parseInt(search.getText)));
+      updatePropertyNames(manager.searchPropertiesByGroup(Integer.parseInt(search.getText())));
     }
 
     // sort buttons
@@ -227,7 +229,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
       updatePropertyNames(manager.getPropertyList());
     }
     else if (command.equals("sortGroup")) {
-      manager.sortPropertiesByGroup();
+      //manager.sortPropertiesByGroup();
       updatePropertyNames(manager.getPropertyList());
     }
     else if (command.equals("sortCost")) {
@@ -247,7 +249,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
     if (!evt.getValueIsAdjusting()) {
       int index = list.getSelectedIndex();
 
-      propInfo.setText(manager.getPropertyList()[index].toString();
+      propInfo.setText(manager.getPropertyList()[index].toString());
     }
   }
 
