@@ -7,7 +7,7 @@ import java.util.Random; // importing the random method from java docs
 
 public class Die {
   // The integer value assigned to the roll of a single die
-  public int lastRoll;
+  private int lastRoll;
   
   public int getLastRoll() {
     return lastRoll;
@@ -15,20 +15,16 @@ public class Die {
   
   // Constructor of the class
   public Die() {
-    lastRoll = Die.Roll();
+    lastRoll = 0;
   }
   
-  public static int Roll() {
+  public int roll() {
     Random rand = new Random();
-    return rand.nextInt(6) + 1;
+    lastRoll = rand.nextInt(6) + 1;
+    return lastRoll;
   }
   
   public int compareTo(Die other) {
     return this.getLastRoll() - other.getLastRoll();
-  }
-  
-  public static void main (String[] args) {
-    Die d1 = new Die();
-    System.out.println(d1.getLastRoll());
   }
 }
