@@ -4,12 +4,12 @@ public class GoTile extends GameTile {
   
   private int amount;
   
-  public GoTile(String name, int amount) {
-    super(name);
+  public GoTile(int amount) {
+    super("Go");
     this.amount = amount;
   }
   
   public void passGo(Player player) {
-    player.cash = player.getCash() + amount;
+    player.setCash(player.getCash() + amount);
   }
 }
