@@ -134,13 +134,14 @@ public class Player {
    
    public int netWorth() {
       int temp = 0;
-      //Lol sorry i'm not sure about the instances and extentions im confuzzeled
-      for (int i = 0; i < propertiesOwned.properties.length; i++) {
+      Property[] properties = propertiesOwned.getPropertyList();
+      
+      for (int i = 0; i < properties.length; i++) {
          //Adds the cost of the property
-         temp += propertiesOwned.properties[i].getCost();
+         temp += properties[i].getCost();
          //Checks if there could be any houses in the property
-         if (propertiesOwned.properties[i] instanceof Estate) {
-            temp += propertiesOwned.properties[i].getIncreasePerHouse() * propertiesOwned.properties[i].getNumHouses();
+         if (properties[i] instanceof Estate) {
+            temp += ((Estate)properties[i]).getIncreasePerHouse() * ((Estate)properties[i]).getNumHouses();
          }
       }
       //Adds the cash
@@ -163,8 +164,7 @@ public class Player {
     */
    
    public int comparePropertiesOwned(Player rival) {
-      //Same here :D
-      return propertiesOwned.properties.length - rival.propertiesOwned.properties.length;
+      return propertiesOwned.getPropertyList().length - rival.propertiesOwned.getPropertyList().length;
    }
    
    /**
@@ -182,7 +182,7 @@ public class Player {
     */
    
    public String toString() {
-      return "Name:  " + name + "\nCash:  " + cash + "\nLocation:  " + location + "\nNumber of utilities
+      return "Name:  " + name + "\nCash:  " + cash + "\nLocation:  " + location + "\nNumber of utilities:  " + numUtilities + "\nNumber of railroads:  " + numRR;
    }  
    
    
