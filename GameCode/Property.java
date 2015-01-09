@@ -6,6 +6,26 @@ abstract class Property extends GameTile {
   protected int cost;
   protected Player owner;
   
+  //Accessors
+  public int getBaseRent() {
+    return baseRent;
+  }
+  
+  public int getCost() {
+    return cost;
+  }
+  
+  public Player getOwner() {
+    return owner;
+  }
+  
+  // Mutators
+  public void setOwner(Player other) {
+    owner = other;
+  }
+  
+  
+  // Constructor
   public Property(String name, int baseRent, int cost) {
     super(name);
     owner = null;
@@ -13,8 +33,10 @@ abstract class Property extends GameTile {
     this.cost = cost;
   }
   
+  // calculate the rent
   abstract int calculateRent();
   
+  //return info
   public String toString() {
     String temp = super.toString();
     temp += "Owner: " + owner;
@@ -25,8 +47,8 @@ abstract class Property extends GameTile {
   
   public boolean purchase(Player player) {
     if (player.getCash() >= cost) {
-      player.cash = player.getCash() - cost;
-      owner = player.getName();
+      player.setCash(player.getCash() - cost);
+      owner = player;
       return true;
     } else {
       return false;
@@ -34,7 +56,7 @@ abstract class Property extends GameTile {
   }
   
   public boolean sell() {
-    player.cash = player.getCash() + cost;
+    owner.setCash(owner.getCash() + cost);
     owner = null;
     return true;
   }
