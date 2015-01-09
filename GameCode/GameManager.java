@@ -5,6 +5,7 @@
  */
 
 import java.io.*;
+import java.util.*;
 
 public class GameManager {
   /**
@@ -26,10 +27,10 @@ public class GameManager {
   /**
    * Number of Tiles on the board
    */
-  private final int NUM_TILES = 40;
+  public final int NUM_TILES = 40;
 
   /**
-   * The Game Board array which holds all the tiles in order
+   * The Game Board players which holds all the tiles in order
    */
   private GameTile[] board;
 
@@ -41,7 +42,7 @@ public class GameManager {
   /**
    * The List of players currently in the game
    */
-  private Arraylist players;
+  private ArrayList players;
 
   /**
    * The two dice which are used in the game
@@ -50,7 +51,12 @@ public class GameManager {
   private Die die2;
 
   /**
-   * The player (determined by the index in the arraylist) whose turn it is
+   * Checks if this player has rolled
+   */
+  private boolean roll;
+  
+  /**
+   * The player (determined by the index in the playerslist) whose turn it is
    */
   private int currentPlayerIndex;
 
@@ -73,18 +79,26 @@ public class GameManager {
   public GameTile[] getBoard() {
     return board;
   }
+  
+  public Die getDie1() {
+    return die1;
+  }
+  
+  public Die getDie2() {
+    return die2;
+  }
 
   // property manager
   public PropertyManager getPropertyManager() {
     return propertyManager;
   }
 
-  //players - this one returns an array (not an arraylist)
+  //players - this one returns an players (not an playerslist)
   public Player[] getPlayers() {
     Player[] temp = new Player[players.size()];
-    // initializing array
+    // initializing players
     for (int i = 0; i < temp.length; i++) {
-      temp[i] = players.get(i);
+      temp[i] = (Player)players.get(i);
     }
     return temp;
   }
@@ -108,9 +122,12 @@ public class GameManager {
    */
   public GameManager(){
     board = new GameTile[NUM_TILES];
+    die1 = new Die();
+    die2 = new Die();
     propertyManager = new PropertyManager();
     players = new ArrayList();
     initializeProperties();
+    roll = false;
   }
 
   /**
@@ -144,23 +161,23 @@ public class GameManager {
         utilities = Integer.parseInt(input.readLine());
         railroads = Integer.parseInt(input.readLine());
 
-        // placing new player in the arraylist
+        // placing new player in the playerslist
         Player newPlayer = new Player(name, cash, location, utilities, railroads);
         players.add(newPlayer);
 
         /* Looping through the properties that this player owns. The name variable will
            now hold the name of property. The loop will exit when this variable holds a blank line */
-        while (!(name = input.nextLine()).equals("")) {
+        while (!(name = input.readLine()).equals("")) {
           // finding the property with this name
           Property temp = propertyManager.searchPropertiesByName(name);
           // making the owner this player
           temp.setOwner(newPlayer);
           // number of houses (if it is an estate)
           if (temp instanceof Estate) {
-            temp.setNumHouses(Integer.parseInt(input.readLine()));
+            ((Estate)temp).setNumHouses(Integer.parseInt(input.readLine()));
           }
           // adding this property to the player's property manager
-          newPlayer.getPropertiesOwned.addProperty(temp);
+          newPlayer.getPropertiesOwned().addProperty(temp);
         }
 
       }
@@ -183,24 +200,24 @@ public class GameManager {
       // Holds the type of property
       String type;
 
-      // looping the number of times required to fill in the array
+      // looping the number of times required to fill in the players
       // It is assumed that the number of properties in the file are the exact number needed
       for (int i = 0; i < NUM_TILES; i++) {
         // Property Type
-        type = input.readline();
+        type = input.readLine();
 
         // Determining the type of property
         // All properties are added to board, purchaseable properties are added to propertyManager as well
         // Go
-        if (type.equals("Go")) {
-          board[i] = new GoTile();
+        if (type.equals("GoTile")) {
+          board[i] = new GoTile(200);
         }
 
         // Estate
         else if (type.equals("Estate")) {
           // Variables required
           String name;
-          int group, num_in_group; cost, rent, rent_increase;
+          int group, num_in_group, cost, rent, rent_increase;
 
           // Getting values
           name = input.readLine();
@@ -213,17 +230,17 @@ public class GameManager {
           // Constructor for Estate
           board[i] = new Estate(name, group, num_in_group, cost, rent, rent_increase);
           // Add to property manager
-          propertyManager.addProperty(board[i]);
+          propertyManager.addProperty((Property)board[i]);
         }
 
         // Community Chest
         else if (type.equals("CommunityChest")) {
-          board[i] = new CommunityChest();
+          board[i] = new CommunityChest(this);
         }
 
         // Chance
         else if (type.equals("Chance")) {
-          board[i] = new Chance();
+          board[i] = new Chance(this);
         }
 
         // Railroad
@@ -234,13 +251,13 @@ public class GameManager {
 
           // Reading variables
           name = input.readLine();
-          cost = input.readLine();
-          rent = input.readLine();
+          cost = Integer.parseInt(input.readLine());
+          rent = Integer.parseInt(input.readLine());
 
           // Constructor for Railroad
           board[i] = new Railroad(name, cost, rent);
           // Add to property manager
-          propertyManager.addProperty(board[i]);
+          propertyManager.addProperty((Property)board[i]);
         }
 
         // Utiity
@@ -257,7 +274,7 @@ public class GameManager {
           // Constructor for Utility
           board[i] = new Utility(name, cost, rent);
           // Add to property manager
-          propertyManager.addProperty(board[i]);
+          propertyManager.addProperty((Property)board[i]);
         }
 
         // Income Tax
@@ -301,7 +318,7 @@ public class GameManager {
    int location = player.getLocation();
    
    if (location == 0) {
-      //board[0].passGo(player);
+      ((GoTile)board[0]).passGo(player);
    }
    
    if (movement >= 1 && location == NUM_TILES-1) {
@@ -309,7 +326,7 @@ public class GameManager {
       move(movement-1);
    } else if (movement == 1) {
       player.setLocation(player.getLocation() + 1);
-   } else {
+   } else if (movement >= 1) {
       player.setLocation(player.getLocation() + 1);
       move(movement-1);
    }
@@ -317,7 +334,7 @@ public class GameManager {
   }
   
   /**
-   * Adds a new player to the arraylist
+   * Adds a new player to the playerslist
    * @author Bicheng
    * @param name the name of the person to add
    * @param cash the cash they start off with
@@ -327,7 +344,7 @@ public class GameManager {
   }
 
   /**
-   * Removes a player from the arraylist
+   * Removes a player from the playerslist
    * @author Bicheng
    * @param person the person to remove
    */
@@ -343,7 +360,9 @@ public class GameManager {
     die1.roll();
     die2.roll();
     //CALL DOUBLES METHOD TO CHECK
-    move(players.get(currentPlayerIndex), (die1.lastRoll + die2.lastRoll));
+    roll = true;
+    doubles();
+    move(die1.getLastRoll() + die2.getLastRoll());
   }
 
   /**
@@ -356,6 +375,8 @@ public class GameManager {
     } else {
       currentPlayerIndex = 0;
     }
+    
+    roll = false;
   }
 
 
@@ -371,7 +392,7 @@ public class GameManager {
 
       // Looping through all players
       for (int i = 0; i < players.size(); i++) {
-        Player current = players.get(i);
+        Player current = (Player)players.get(i);
         // Writing the player's name, cash, location, number of utilities, and number of railroads
         pen.write(current.getName());
         pen.newLine();
@@ -387,15 +408,15 @@ public class GameManager {
         // Player's properties
 
         // accessing the player's propertyList in their property manager
-        Arraylist propertyList = current.getPropertiesOwned().getPropertyList();
+        Property[] propertyList = current.getPropertiesOwned().getPropertyList();
 
         // looping through properties
-        for (int i = 0; i < propertyList.size()) {
-          pen.write(propertyList.get(i).getName());
+        for (int k = 0; k < propertyList.length; k++) {
+          pen.write(propertyList[k].getName());
           pen.newLine();
           // if it is an estate then the number of houses needs to be saved
-          if (propertyList.get(i) instanceof Estate) {
-            pen.write(propertyList.get(i).getNumHouses());
+          if (propertyList[k] instanceof Estate) {
+            pen.write(((Estate)propertyList[k]).getNumHouses());
             pen.newLine();
           }
         }
@@ -419,16 +440,22 @@ public class GameManager {
     
   }
   
+  /**
+   * Checks if a die has been rolled
+   */
+  public boolean rollCheck() {
+    return !roll;
+  }
 
   /**
    * checks if a double was rolled
    * @author Bicheng
    */
-  public boolean doubles(){
-    if (die1.lastRoll == die2.lastRoll){
-      return true;
+  public void doubles(){
+    if (die1.compareTo(die2) == 0){
+      roll = false;
     } else {
-      return false;
+      roll = true;
     }
   }
 
@@ -439,26 +466,26 @@ public class GameManager {
    * @return Player[]
    */
   public Player[] sortPlayersByName() {
-    Player[] array = getPlayers();
+    Player[] players = getPlayers();
     boolean sorted = false;
 
     // outer loop
     while (!sorted) {
       sorted = true;
-      // loop through array
-      for (int i = 0; i < array.length - 1; i++) {
-        if (array[i].getName().compareTo(array[i + 1].getName()) > 0) {
+      // loop through players
+      for (int i = 0; i < players.length - 1; i++) {
+        if (players[i].getName().compareTo(players[i + 1].getName()) > 0) {
           // switch elements
-          Player temp = array[i];
-          array[i] = array[i + 1];
-          array[i + 1] = temp;
+          Player temp = players[i];
+          players[i] = players[i + 1];
+          players[i + 1] = temp;
           sorted = false;
         }
       }
     }
 
-    // array is now sorted
-    return array;
+    // players is now sorted
+    return players;
   }
 
   /**
@@ -468,26 +495,26 @@ public class GameManager {
    * @return Player[]
    */
   public Player[] sortPlayersByCash() {
-    Player[] array = getPlayers();
+    Player[] players = getPlayers();
     boolean sorted = false;
 
     // outer loop
     while (!sorted) {
       sorted = true;
-      // loop through array
-      for (int i = 0; i < array.length - 1; i++) {
-        if (array[i].getCash() > array[i + 1].getCash()) {
+      // loop through players
+      for (int i = 0; i < players.length - 1; i++) {
+        if (players[i].getCash() > players[i + 1].getCash()) {
           // switch elements
-          Player temp = array[i];
-          array[i] = array[i + 1];
-          array[i + 1] = temp;
+          Player temp = players[i];
+          players[i] = players[i + 1];
+          players[i + 1] = temp;
           sorted = false;
         }
       }
     }
 
-    // array is now sorted
-    return array;
+    // players is now sorted
+    return players;
   }
 
   /**
@@ -497,26 +524,26 @@ public class GameManager {
    * @return Player[]
    */
   public Player[] sortPlayersByPropertiesOwned() {
-    Player[] array = getPlayers();
+    Player[] players = getPlayers();
     boolean sorted = false;
 
     // outer loop
     while (!sorted) {
       sorted = true;
-      // loop through array
-      for (int i = 0; i < array.length - 1; i++) {
-        if (array[i].getPropertiesOwned().size() > array[i + 1].getPropertiesOwned().size()) {
+      // loop through players
+      for (int i = 0; i < players.length - 1; i++) {
+        if (players[i].getPropertiesOwned().getPropertyList().length > players[i + 1].getPropertiesOwned().getPropertyList().length) {
           // switch elements
-          Player temp = array[i];
-          array[i] = array[i + 1];
-          array[i + 1] = temp;
+          Player temp = players[i];
+          players[i] = players[i + 1];
+          players[i + 1] = temp;
           sorted = false;
         }
       }
     }
 
-    // array is now sorted
-    return array;
+    // players is now sorted
+    return players;
   }
   
   public Player searchPlayer(String name) {
