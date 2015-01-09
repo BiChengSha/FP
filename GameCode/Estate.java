@@ -89,12 +89,14 @@ public class Estate extends Property {
    
    public boolean checkMonopoly() {
       int temp = 0;
+      Property[] properties = owner.getPropertiesOwned().getPropertyList();
+      
       //Sorry i forgot how to do this properly
-      for (int i = 0; i < owner.getPropertiesOwned().properties.length; i++) {
+      for (int i = 0; i < properties.length; i++) {
          //Checks if owned property belongs to Estate
-         if (owner.getPropertiesOwned().properties.get(i) instanceof Estate) {
+         if (properties[i] instanceof Estate) {
             //Checks if the property belongs in the group
-            if (owner.getPropertiesOwned().properties.get(i).getGroup() == group) {
+            if (((Estate)properties[i]).getGroup() == group) {
                temp++;
             }
          }
@@ -147,7 +149,7 @@ public class Estate extends Property {
       //Checks if user can sell a house
       if (numHouses > 0) {
          //Sets cash for owner and decreases the number of houses
-         owner.setCash(owner.cash + increasePerHouse);
+         owner.setCash(owner.getCash() + increasePerHouse);
          numHouses--;
          
          return true;
@@ -163,7 +165,7 @@ public class Estate extends Property {
     */
    
    public String toString() {
-      return super.toString() + "\nRent increased per house:  " + increasePerHOuse + "\nNumber of Houses:  " + numHouses + "\nGroup:  " + group;
+      return super.toString() + "\nRent increased per house:  " + increasePerHouse + "\nNumber of Houses:  " + numHouses + "\nGroup:  " + group;
    }
    
 }
