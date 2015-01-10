@@ -42,7 +42,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
  private JTextArea propInfo;
  private JScrollPane scrollPane;
  private JList list;
- String[] propertyNames;
+ String[] propertyNames = {"Uninitialized"};
 
 
  /**
@@ -70,6 +70,9 @@ public class PropertyWindow extends JFrame implements ActionListener {
 
   // adding the info boxes
   drawInfoArea();
+
+  // initialize property names
+  updatePropertyNames(manager.getPropertyList());
 
   setVisible(true);
  }
@@ -167,6 +170,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
   // scrollable list
   list = new JList(propertyNames);
   list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+  list.addListSelectionListener(listener);
   scrollPane = new JScrollPane(list);
 
   // property info
@@ -182,6 +186,7 @@ public class PropertyWindow extends JFrame implements ActionListener {
  }
 
 
+
   /**
    * Updates the String players "propertyNames" with names of the properties in the property manager
    * @author Zain
@@ -192,7 +197,11 @@ public class PropertyWindow extends JFrame implements ActionListener {
 
     for (int i = 0; i < updatedProperties.length; i++) {
       propertyNames[i] = updatedProperties[i].getName();
+      System.out.println(propertyNames[i] + ", " + updatedProperties[i].getName() + ", " + manager.getPropertyList()[i].getName());
     }
+
+    list.setListData(propertyNames);
+    //repaint();
   }
 
 
@@ -205,6 +214,9 @@ public class PropertyWindow extends JFrame implements ActionListener {
     propertyNames = new String[1];
 
     propertyNames[0] = prop.getName();
+
+    list.setListData(propertyNames);
+    //repaint();
   }
 
 
@@ -217,24 +229,43 @@ public class PropertyWindow extends JFrame implements ActionListener {
 
     // search buttons
     if (command.equals("searchName")) {
-      updatePropertyNames(manager.searchPropertiesByName(search.getText()));
+      // try to search proeprties, if there is no match then the entire property list is displayed
+      try {
+        updatePropertyNames(manager.searchPropertiesByName(search.getText()));
+        //repaint();
+      } catch (NullPointerException noMatch) {
+        updatePropertyNames(manager.getPropertyList());
+        //repaint();
+      }
     }
     else if (command.equals("searchGroup")) {
-      updatePropertyNames(manager.searchPropertiesByGroup(Integer.parseInt(search.getText())));
+      // try to search, if there is no match then show entire property list. Error window if user didn't enter a number
+      try {
+        updatePropertyNames(manager.searchPropertiesByGroup(Integer.parseInt(search.getText())));
+        //repaint();
+      } catch (NullPointerException noMatch) {
+        updatePropertyNames(manager.getPropertyList());
+        //repaint();
+      } catch (NumberFormatException not_a_number) {
+        new NotificationWindow("Error", "Groups are numbered, please enter an integer to search by group.");
+      }
     }
 
     // sort buttons
     if (command.equals("sortName")) {
       manager.sortPropertiesByName();
       updatePropertyNames(manager.getPropertyList());
+      //repaint();
     }
     else if (command.equals("sortGroup")) {
-      //manager.sortPropertiesByGroup();
+      manager.sortPropertiesByGroup();
       updatePropertyNames(manager.getPropertyList());
+      //repaint();
     }
     else if (command.equals("sortCost")) {
       manager.sortPropertiesByCost();
       updatePropertyNames(manager.getPropertyList());
+      //repaint();
     }
   }
 
@@ -243,16 +274,33 @@ public class PropertyWindow extends JFrame implements ActionListener {
    * List selection listener - handles the event triggered when an item in the list is clicked
    * @author Zain
    */
-  public void valueChanged(ListSelectionEvent evt) {
-    // source is the list "list"
+  ListSelectionListener listener = new ListSelectionListener() {
+    public void valueChanged(ListSelectionEvent evt) {
+      // source is the list "list"
 
-    if (!evt.getValueIsAdjusting()) {
-      int index = list.getSelectedIndex();
+      if (!evt.getValueIsAdjusting()) {
+        int index = list.getSelectedIndex();
 
-      propInfo.setText(manager.getPropertyList()[index].toString());
+        if (index != -1) {
+          // finding the roperty in the property manager with the corresponding name
+          Property requiredProp = manager.searchPropertiesByName(propertyNames[index]);
+          propInfo.setText(requiredProp.toString());
+          //propInfo.setText("Index " + index + " selected.");
+        }
+      }
     }
-  }
+  };
 
+
+  // Testing the class
+  // public static void main(String[] args) {
+  //   // Property manager
+  //   PropertyManager prop = new PropertyManager();
+  //   prop.addProperty(new Estate("Estate 1", 1, 2, 3, 4, 5));
+  //   prop.addProperty(new Utility("Utility 1", 1, 3));
+
+  //   PropertyWindow win = new PropertyWindow(prop);
+  // }
 
 }
 
