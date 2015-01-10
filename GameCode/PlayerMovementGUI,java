@@ -1,0 +1,70 @@
+import java.util.Random;
+
+public class PlayerMovementGUI {
+  private int x_axis = 0;
+  private int y_axis = 900;
+  private boolean moveUp = true;
+  private boolean moveDown = false;
+  private boolean moveRight = false;
+  private boolean moveLeft = false;
+  // sizes for a 900x900 board
+  private final int EDGE_SIZE = 75;
+//  private final int CORNER_SIZE = 112;
+  // sizes for a 800*800 board
+//  private final int EDGE_SIZE;
+//  private final int CORNER_SIZE;
+  
+  public void checkDirection(Player player, GameManager manager) {
+    int location = manager.getPlayers()[manager.getCurrentPlayerIndex()].getLocation();
+    if (location >= 0 && location < 10 ) {
+      moveUp = true;
+      moveDown = false;
+      moveRight = false;
+      moveLeft = false;
+    } else if (location >= 10 && location < 20) {
+      moveUp = false;
+      moveDown = false;
+      moveRight = true;
+      moveLeft = false;
+    } else if (location >= 10 && location < 30) {
+      moveUp = false;
+      moveDown = true;
+      moveRight = false;
+      moveLeft = false;
+    } else {
+      moveUp = false;
+      moveDown = false;
+      moveRight = false;
+      moveLeft = true;
+    }
+  }
+  
+  public void movePixels(Player player, GameManager manager) {
+    // getting the player's location on the board
+    int location = manager.getPlayers()[manager.getCurrentPlayerIndex()].getLocation();
+    // at the corner pieces, the pixel location will be randomized near the centre of the tile
+    if (location == manager.GO_TILE) {
+      x_axis = Random.randInt(38) + 38;
+      y_axis = Random.randInt(38) + 788 + 38;
+    } else if (location == manager.AZKABAN) {
+      x_axis = Random.randInt(38) + 38;
+      y_axis = Random.randInt(38) + 38;
+    } else if (location == manager.LIMBO) {
+      x_axis = Random.randInt(38) + 788 + 38;
+      y_axis = Random.randInt(38) + 38;  
+    } else if (location == manager.SCENIC_ROUTE) {
+      x_axis = Random.randInt(38) + 788 + 38;
+      y_axis = Random.randInt(38) + 788 + 38;
+    }
+    // pixel movement for regular(edge) pieces
+    if (moveUp) {
+      y_axis -= EDGE_SIZE;
+    } else if (moveRight) {
+      x_axis += EDGE_SIZE;
+    } else if (moveDown) {
+      y_axis += EDGE_SIZE;
+    } else {
+      x_axis -= EDGE_SIZE 
+    }
+  }
+}
