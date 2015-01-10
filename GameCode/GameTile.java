@@ -13,6 +13,6 @@ public class GameTile {
   }
   
   public String toString() {
-    return "Name: " + name;
+    return "Name: " + name + "\n";
   }
 }
