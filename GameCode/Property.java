@@ -40,8 +40,8 @@ abstract class Property extends GameTile {
   public String toString() {
     String temp = super.toString();
     temp += "Owner: " + owner;
-    temp += "Cost: " + cost;
-    temp += "Base Rent: " + baseRent;
+    temp += "\nCost: " + cost;
+    temp += "\nBase Rent: " + baseRent;
     return temp;
   }
   
