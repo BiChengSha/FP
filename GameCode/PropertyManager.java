@@ -135,7 +135,7 @@ public class PropertyManager {
    sorted = true;
    // looping through list
    for (int i = 0; i < propertyList.size() - 1; i++) {
-    if (((Property)propertyList.get(i)).getCost() < ((Property)propertyList.get(i+1)).getCost()) {
+    if (((Property)propertyList.get(i)).getCost() > ((Property)propertyList.get(i+1)).getCost()) {
      // switching elements of the ArrayList
      Property temp = (Property)propertyList.get(i);
      propertyList.set(i, propertyList.get(i+1));
