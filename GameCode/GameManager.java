@@ -13,17 +13,17 @@ public class GameManager {
    */
   public static final int UTILITY_1 = 12;
   public static final int UTILITY_2 = 28;
-  
+
   public static final int RAILROAD_1 = 5;
   public static final int RAILROAD_2 = 15;
   public static final int RAILROAD_3 = 25;
   public static final int RAILROAD_4 = 35;
-  
+
   public static final int GO_TILE = 0;
   public static final int AZKABAN = 10;
   public static final int LIMBO = 20;
   public static final int SCENIC_ROUTE = 30;
-  
+
   /**
    * Number of Tiles on the board
    */
@@ -54,7 +54,7 @@ public class GameManager {
    * Checks if this player has rolled
    */
   private boolean roll;
-  
+
   /**
    * The player (determined by the index in the playerslist) whose turn it is
    */
@@ -79,11 +79,11 @@ public class GameManager {
   public GameTile[] getBoard() {
     return board;
   }
-  
+
   public Die getDie1() {
     return die1;
   }
-  
+
   public Die getDie2() {
     return die2;
   }
@@ -107,7 +107,7 @@ public class GameManager {
   public int getCurrentPlayerIndex() {
     return currentPlayerIndex;
   }
-  
+
   // number of players
   public int getNumPlayers() {
     return players.size();
@@ -231,6 +231,7 @@ public class GameManager {
           board[i] = new Estate(name, group, num_in_group, cost, rent, rent_increase);
           // Add to property manager
           propertyManager.addProperty((Property)board[i]);
+          //System.out.println(board[i].getName());
         }
 
         // Community Chest
@@ -258,6 +259,7 @@ public class GameManager {
           board[i] = new Railroad(name, cost, rent);
           // Add to property manager
           propertyManager.addProperty((Property)board[i]);
+          //System.out.println(board[i].getName());
         }
 
         // Utiity
@@ -275,6 +277,7 @@ public class GameManager {
           board[i] = new Utility(name, cost, rent);
           // Add to property manager
           propertyManager.addProperty((Property)board[i]);
+          //System.out.println(board[i].getName());
         }
 
         // Income Tax
@@ -303,7 +306,7 @@ public class GameManager {
       System.out.println("Error accessing property list file");
     }
   }
-  
+
   public int findMovement(int destination, int location) {
     if (destination < location) {
       return destination - location + NUM_TILES;
@@ -311,16 +314,16 @@ public class GameManager {
       return destination - location;
     }
   }
-  
+
   public void move(int movement) {
-  
+
    Player player = ((Player)players.get(currentPlayerIndex));
    int location = player.getLocation();
-   
+
    if (location == 0) {
       ((GoTile)board[0]).passGo(player);
    }
-   
+
    if (movement >= 1 && location == NUM_TILES-1) {
       player.setLocation(0);
       move(movement-1);
@@ -330,9 +333,9 @@ public class GameManager {
       player.setLocation(player.getLocation() + 1);
       move(movement-1);
    }
-   
+
   }
-  
+
   /**
    * Adds a new player to the playerslist
    * @author Bicheng
@@ -375,7 +378,7 @@ public class GameManager {
     } else {
       currentPlayerIndex = 0;
     }
-    
+
     roll = false;
   }
 
@@ -429,7 +432,7 @@ public class GameManager {
     }
   }
 
-  
+
   /**
    * Draws the player on the game board (given the location to draw them on)
    * @author Zain
@@ -437,9 +440,9 @@ public class GameManager {
    * @param location the location to draw the player on
    */
   public void drawPlayer(Player player, int location) {
-    
+
   }
-  
+
   /**
    * Checks if a die has been rolled
    */
@@ -545,7 +548,7 @@ public class GameManager {
     // players is now sorted
     return players;
   }
-  
+
   public Player searchPlayer(String name) {
     Player[] players = getPlayers();
 
@@ -554,21 +557,10 @@ public class GameManager {
         return players[i];
       }
     }
-    
+
     return null;
-    
+
   }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
