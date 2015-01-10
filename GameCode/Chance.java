@@ -17,7 +17,7 @@ public class Chance extends GameTile {
   
   // initializing the messages arraay
 private String[] chanceCards = {("Advance to Go (Collect $200)"),  // 0
-    ("Advance to " + manager.getBoard()[24].getName() + "."), // 1
+    ("Advance to Springfield."), // 1
     ("Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown."), // 2
     ("Advance token to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank. (There are two of these.)"), // 3
     ("Advance to King's Landing - if you pass Go, collect $200"), // 4
